@@ -58,7 +58,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         final GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
 
         // stub
-        when(reviewService.getProductReviews(any(), any())).thenReturn(expectedResponse);
+        when(reviewService.getProductReviews(any(), any(), any())).thenReturn(expectedResponse);
 
         // when
         final ResultActions resultActions = requestGetProductReviews(productId, cursor, size);

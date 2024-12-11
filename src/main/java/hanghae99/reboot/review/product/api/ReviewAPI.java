@@ -23,7 +23,7 @@ public class ReviewAPI {
             @RequestParam(value = "cursor", required = false) Integer cursor,
             @RequestParam(value = "size", required = false, defaultValue = "10") Integer size
     ) {
-        return ResponseEntity.ok(reviewService.getProductReviews(productId, size));
+        return ResponseEntity.ok(reviewService.getProductReviews(productId, cursor, size));
     }
 
     @PostMapping

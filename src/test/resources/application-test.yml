@@ -12,7 +12,11 @@ spring:
   # H2 DB 설정
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      schema-locations: classpath:database/schema.sql
+      mode: always

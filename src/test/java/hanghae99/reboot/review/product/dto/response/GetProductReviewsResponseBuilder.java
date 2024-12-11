@@ -7,6 +7,6 @@ public class GetProductReviewsResponseBuilder {
         GetReviewResponse review1 = GetReviewResponseBuilder.build1();
         GetReviewResponse review2 = GetReviewResponseBuilder.build2();
 
-        return new GetProductReviewsResponse(2, 4.0, 1, List.of(review1, review2));
+        return new GetProductReviewsResponse(2, 4.0f, 1, List.of(review1, review2));
     }
 }
