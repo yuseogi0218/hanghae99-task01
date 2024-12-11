@@ -1,7 +1,7 @@
 package hanghae99.reboot.review.product.unit.api;
 
-import hanghae99.reboot.review.common.exception.CommonErrorCode;
 import hanghae99.reboot.review.common.APIUnitTest;
+import hanghae99.reboot.review.common.exception.CommonErrorCode;
 import hanghae99.reboot.review.product.api.ReviewAPI;
 import hanghae99.reboot.review.product.dto.request.CreateProductReviewRequest;
 import hanghae99.reboot.review.product.dto.request.CreateProductReviewRequestBuilder;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -51,24 +50,24 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_목록_조회_성공() throws Exception {
         // given
-        final String productId = "1";
-        final String cursor = "1";
-        final String size = "10";
+        String productId = "1";
+        String cursor = "1";
+        String size = "10";
 
-        final GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
+        GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
 
         // stub
         when(reviewService.getProductReviews(any(), any(), any())).thenReturn(expectedResponse);
 
         // when
-        final ResultActions resultActions = requestGetProductReviews(productId, cursor, size);
+        ResultActions resultActions = requestGetProductReviews(productId, cursor, size);
 
         // then
-        final String responseString = resultActions
+        String responseString = resultActions
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-        final GetProductReviewsResponse actualResponse = objectMapper.readValue(responseString, GetProductReviewsResponse.class);
+        GetProductReviewsResponse actualResponse = objectMapper.readValue(responseString, GetProductReviewsResponse.class);
 
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
     }
@@ -80,12 +79,12 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_목록_조회_실패_productId_파라미터_타입() throws Exception {
         // given
-        final String invalidProductId = "invalid-product-id";
-        final String cursor = "1";
-        final String size = "10";
+        String invalidProductId = "invalid-product-id";
+        String cursor = "1";
+        String size = "10";
 
         // when
-        final ResultActions resultActions = requestGetProductReviews(invalidProductId, cursor, size);
+        ResultActions resultActions = requestGetProductReviews(invalidProductId, cursor, size);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "productId");
@@ -98,12 +97,12 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_목록_조회_실패_cursor_파라미터_타입() throws Exception {
         // given
-        final String productId = "1";
-        final String invalidCursor = "invalid-cursor";
-        final String size = "10";
+        String productId = "1";
+        String invalidCursor = "invalid-cursor";
+        String size = "10";
 
         // when
-        final ResultActions resultActions = requestGetProductReviews(productId, invalidCursor, size);
+        ResultActions resultActions = requestGetProductReviews(productId, invalidCursor, size);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "cursor");
@@ -116,12 +115,12 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_목록_조회_실패_size_파라미터_타입() throws Exception {
         // given
-        final String productId = "1";
-        final String cursor = "1";
-        final String invalidSize = "invalid-size";
+        String productId = "1";
+        String cursor = "1";
+        String invalidSize = "invalid-size";
 
         // when
-        final ResultActions resultActions = requestGetProductReviews(productId, cursor, invalidSize);
+        ResultActions resultActions = requestGetProductReviews(productId, cursor, invalidSize);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "size");
@@ -133,17 +132,17 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_성공() throws Exception {
         // given
-        final String productId = "1";
-        final MockMultipartFile file = new MockMultipartFile(
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
-        final CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(productId, file, request);
+        ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
         resultActions.andExpect(status().isOk());
@@ -156,17 +155,17 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_실패_productId_파라미터_타입() throws Exception {
         // given
-        final String invalidProductId = "invalid-product-id";
-        final MockMultipartFile file = new MockMultipartFile(
+        String invalidProductId = "invalid-product-id";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
-        final CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(invalidProductId, file, request);
+        ResultActions resultActions = requestCreateProductionReview(invalidProductId, file, request);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "productId");
@@ -179,16 +178,16 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_실패_리뷰_파라미터_null() throws Exception {
         // given
-        final String productId = "1";
-        final MockMultipartFile file = new MockMultipartFile(
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(productId, file, null);
+        ResultActions resultActions = requestCreateProductionReview(productId, file, null);
 
         // then
         assertErrorWithMessage(CommonErrorCode.REQUIRED_PARAMETER, resultActions, "review");
@@ -201,17 +200,17 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_실패_userId_필드_null() throws Exception {
         // given
-        final String productId = "1";
-        final MockMultipartFile file = new MockMultipartFile(
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
-        final CreateProductReviewRequest request = CreateProductReviewRequestBuilder.nullUserIdBuild();
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.nullUserIdBuild();
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(productId, file, request);
+        ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "사용자 Id 는 필수 입력값 입니다.");
@@ -224,17 +223,17 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_실패_score_필드_null() throws Exception {
         // given
-        final String productId = "1";
-        final MockMultipartFile file = new MockMultipartFile(
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
-        final CreateProductReviewRequest request = CreateProductReviewRequestBuilder.nullScoreBuild();
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.nullScoreBuild();
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(productId, file, request);
+        ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "리뷰 점수는 필수 입력값 입니다.");
@@ -247,17 +246,17 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     @Test
     public void 상품_리뷰_등록_실패_score_필드_유효성() throws Exception {
         // given
-        final String productId = "1";
-        final MockMultipartFile file = new MockMultipartFile(
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
                 "file",
-                "review.png",
+                "image.png",
                 MediaType.MULTIPART_FORM_DATA_VALUE,
                 new byte[]{65}
         );
-        final CreateProductReviewRequest request = CreateProductReviewRequestBuilder.invalidScoreBuild();
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.invalidScoreBuild();
 
         // when
-        final ResultActions resultActions = requestCreateProductionReview(productId, file, request);
+        ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "리뷰 점수는 1 ~ 5 사이의 정수 이어야 합니다.");
