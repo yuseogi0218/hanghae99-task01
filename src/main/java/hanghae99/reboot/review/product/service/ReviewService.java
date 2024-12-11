@@ -1,7 +1,7 @@
-package hanghae99.reboot.review.service;
+package hanghae99.reboot.review.product.service;
 
-import hanghae99.reboot.review.dto.request.CreateProductReviewRequest;
-import hanghae99.reboot.review.dto.response.GetProductReviewsResponse;
+import hanghae99.reboot.review.product.dto.request.CreateProductReviewRequest;
+import hanghae99.reboot.review.product.dto.response.GetProductReviewsResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

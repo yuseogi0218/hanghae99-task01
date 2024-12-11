@@ -1,7 +1,7 @@
-package hanghae99.reboot.review.api;
+package hanghae99.reboot.review.product.api;
 
-import hanghae99.reboot.review.dto.request.CreateProductReviewRequest;
-import hanghae99.reboot.review.service.ReviewService;
+import hanghae99.reboot.review.product.dto.request.CreateProductReviewRequest;
+import hanghae99.reboot.review.product.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

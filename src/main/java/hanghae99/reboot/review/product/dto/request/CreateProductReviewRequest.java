@@ -1,4 +1,4 @@
-package hanghae99.reboot.review.dto.request;
+package hanghae99.reboot.review.product.dto.request;
 
 
 import jakarta.validation.constraints.Max;

@@ -1,4 +1,4 @@
-package hanghae99.reboot.review.dto.response;
+package hanghae99.reboot.review.product.dto.response;
 
 import java.util.List;
 
