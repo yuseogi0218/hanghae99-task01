@@ -23,9 +23,6 @@ local.properties
 .recommenders
 .target/
 
-# ignore data.sl file
-data.sql
-
 # External tool builders
 .externalToolBuilders/
 
