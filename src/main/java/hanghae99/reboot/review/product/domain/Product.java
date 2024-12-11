@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,5 +31,18 @@ public class Product {
 
     public Product(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) && Objects.equals(reviewCount, product.reviewCount) && Objects.equals(score, product.score);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, reviewCount, score);
     }
 }

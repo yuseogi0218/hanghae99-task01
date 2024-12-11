@@ -4,7 +4,7 @@ public class ProductBuilder {
 
     public static Product build() {
         Product product = new Product(1L);
-        product.updateReview(10, 4.5f);
+        product.updateReview(15, 4.6f);
 
         return product;
     }

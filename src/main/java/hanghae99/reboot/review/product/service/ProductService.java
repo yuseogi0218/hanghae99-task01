@@ -14,6 +14,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Product getProductById(Long productId) {
-        return productRepository.findById(productId).orElseThrow(() -> new CustomCommonException(ProductErrorCode.NOT_FOUND_PRODUCT));
+        return productRepository.findTopById(productId).orElseThrow(() -> new CustomCommonException(ProductErrorCode.NOT_FOUND_PRODUCT));
     }
 }

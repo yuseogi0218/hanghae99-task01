@@ -34,7 +34,7 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
         Product expectedProduct = ProductBuilder.build();
 
         // stub
-        when(productRepository.findById(productId)).thenReturn(Optional.of(expectedProduct));
+        when(productRepository.findTopById(productId)).thenReturn(Optional.of(expectedProduct));
 
         // when
         Product actualProduct = productService.getProductById(productId);
@@ -53,7 +53,7 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
         Long unknownProductId = 0L;
 
         // stub
-        when(productRepository.findById(unknownProductId)).thenReturn(Optional.empty());
+        when(productRepository.findTopById(unknownProductId)).thenReturn(Optional.empty());
 
         // when
         Assertions.assertThatThrownBy(() -> productService.getProductById(unknownProductId))
