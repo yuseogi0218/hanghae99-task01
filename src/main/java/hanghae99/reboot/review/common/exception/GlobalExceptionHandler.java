@@ -1,6 +1,5 @@
 package hanghae99.reboot.review.common.exception;
 
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -24,7 +24,7 @@ public class Product {
     @Column(name = "score", nullable = false)
     private Float score;
 
-    public void updateReview(Integer reviewCount, Float score) {
+    public void updateReviewInfo(Integer reviewCount, Float score) {
         this.reviewCount = reviewCount;
         this.score = score;
     }

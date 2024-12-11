@@ -4,7 +4,6 @@ import hanghae99.reboot.review.common.RepositoryUnitTest;
 import hanghae99.reboot.review.product.domain.Product;
 import hanghae99.reboot.review.product.domain.ProductBuilder;
 import hanghae99.reboot.review.product.repository.ProductRepository;
-import hanghae99.reboot.review.product.repository.ReviewRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

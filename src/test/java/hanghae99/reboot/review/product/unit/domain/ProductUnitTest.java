@@ -1,21 +1,20 @@
 package hanghae99.reboot.review.product.unit.domain;
 
 import hanghae99.reboot.review.product.domain.Product;
-import hanghae99.reboot.review.product.domain.ProductBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ProductUnitTest {
 
     @Test
-    public void updateReview() {
+    public void updateReviewInfo() {
         // given
         Product product = new Product(1L);
         Integer reviewCount = 10;
         Float score = 4.5f;
 
         // when
-        product.updateReview(reviewCount, score);
+        product.updateReviewInfo(reviewCount, score);
 
         // then
         Assertions.assertThat(product.getReviewCount()).isEqualTo(reviewCount);

@@ -3,6 +3,7 @@ package hanghae99.reboot.review.product.domain;
 import hanghae99.reboot.review.common.entity.CreatedAtEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,7 @@ public class Review extends CreatedAtEntity {
     @Column(name = "imageUrl")
     private String imageUrl;
 
+    @Builder
     public Review(Long productId, Long userId, Integer score, String content, String imageUrl) {
         this.product = new Product(productId);
         this.userId = userId;
