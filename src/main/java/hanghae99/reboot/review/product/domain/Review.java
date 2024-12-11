@@ -32,4 +32,12 @@ public class Review extends CreatedAtEntity {
 
     @Column(name = "imageUrl")
     private String imageUrl;
+
+    public Review(Long productId, Long userId, Integer score, String content, String imageUrl) {
+        this.product = new Product(productId);
+        this.userId = userId;
+        this.score = score;
+        this.content = content;
+        this.imageUrl = imageUrl;
+    }
 }
