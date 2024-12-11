@@ -10,7 +10,7 @@ public class ProductUnitTest {
     @Test
     public void updateReview() {
         // given
-        Product product = ProductBuilder.build();
+        Product product = new Product(1L);
         Integer reviewCount = 10;
         Float score = 4.5f;
 
