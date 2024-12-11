@@ -8,6 +8,9 @@ public class DummyFileService implements FileService{
 
     @Override
     public String uploadFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
         return "/image.png";
     }
 }
