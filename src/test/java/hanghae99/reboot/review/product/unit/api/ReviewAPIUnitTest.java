@@ -51,7 +51,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     public void 상품_리뷰_목록_조회_성공() throws Exception {
         // given
         String productId = "1";
-        String cursor = "1";
+        String cursor = "3";
         String size = "2";
 
         GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
@@ -80,7 +80,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     public void 상품_리뷰_목록_조회_실패_productId_파라미터_타입() throws Exception {
         // given
         String invalidProductId = "invalid-product-id";
-        String cursor = "1";
+        String cursor = "3";
         String size = "2";
 
         // when
@@ -116,7 +116,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     public void 상품_리뷰_목록_조회_실패_size_파라미터_타입() throws Exception {
         // given
         String productId = "1";
-        String cursor = "1";
+        String cursor = "3";
         String invalidSize = "invalid-size";
 
         // when

@@ -35,7 +35,7 @@ public class ReviewService {
     public GetProductReviewsResponse getProductReviews(Long productId, Integer cursor, Integer size) {
         Product product = productService.getProductById(productId);
 
-        List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(productId, PageRequest.of(0, size));
+        List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(productId, cursor, PageRequest.of(0, size));
 
         return GetProductReviewsResponse.from(product, cursor, reviews);
     }
@@ -56,7 +56,7 @@ public class ReviewService {
 
     @DistributedLock(key = "#productId")
     public void updateProductReviewInfo(Long productId) {
-        Product product = productService.getProductByIdForUpdate(productId);
+        Product product = productService.getProductById(productId);
 
         GetProductReviewInfoDTO productReviewInfo = reviewRepository.findReviewInfoByProductId(productId);
         product.updateReviewInfo(productReviewInfo.totalCount(), productReviewInfo.score());

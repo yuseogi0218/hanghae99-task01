@@ -31,7 +31,7 @@ public class ReviewIntegrationTest extends IntegrationTest {
     public void 상품_리뷰_목록_조회_성공() throws Exception {
         // given
         String productId = "1";
-        String cursor = "1";
+        String cursor = "3";
         String size = "2";
 
         GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
@@ -57,7 +57,7 @@ public class ReviewIntegrationTest extends IntegrationTest {
     public void 상품_리뷰_목록_조회_실패_상품_존재_X() throws Exception {
         // given
         String unknownProductId = "0";
-        String cursor = "1";
+        String cursor = "3";
         String size = "2";
 
         // when

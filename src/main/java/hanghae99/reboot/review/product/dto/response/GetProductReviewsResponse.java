@@ -11,6 +11,6 @@ public record GetProductReviewsResponse(
         List<GetReviewResponse> reviews
 ) {
     public static GetProductReviewsResponse from(Product product, Integer cursor, List<GetReviewResponse> reviews) {
-        return new GetProductReviewsResponse(product.getReviewCount(), product.getScore(), cursor, reviews);
+        return new GetProductReviewsResponse(product.getReviewCount(), product.getScore(), cursor - reviews.size(), reviews);
     }
 }

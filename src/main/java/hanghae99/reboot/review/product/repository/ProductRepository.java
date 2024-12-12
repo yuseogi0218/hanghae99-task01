@@ -11,6 +11,4 @@ import java.util.Optional;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     Optional<Product> findTopById(Long id);
 
-    @Query(value = "select * From Product p where p.id = :id limit 1 for update", nativeQuery = true)
-    Optional<Product> findTopByIdForUpdate(Long id);
 }

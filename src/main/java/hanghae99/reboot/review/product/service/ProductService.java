@@ -17,7 +17,4 @@ public class ProductService {
         return productRepository.findTopById(productId).orElseThrow(() -> new CustomCommonException(ProductErrorCode.NOT_FOUND_PRODUCT));
     }
 
-    public Product getProductByIdForUpdate(Long productId) {
-        return productRepository.findTopByIdForUpdate(productId).orElseThrow(() -> new CustomCommonException(ProductErrorCode.NOT_FOUND_PRODUCT));
-    }
 }

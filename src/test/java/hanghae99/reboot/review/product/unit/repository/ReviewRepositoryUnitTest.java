@@ -27,14 +27,15 @@ public class ReviewRepositoryUnitTest extends RepositoryUnitTest {
     public void findOrderByCreatedAtDesc() {
         // given
         Long productId = 1L;
+        Integer cursor = 3;
         Pageable pageable = PageRequest.of(0, 2);
 
         GetReviewResponse review1 = GetReviewResponseBuilder.build1();
         GetReviewResponse review2 = GetReviewResponseBuilder.build2();
-        List<GetReviewResponse> expectedReviews = List.of(review1, review2);
+        List<GetReviewResponse> expectedReviews = List.of(review2, review1);
 
         // when
-        List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(productId, pageable);
+        List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(productId, cursor, pageable);
 
         // then
         Assertions.assertThat(reviews).isEqualTo(expectedReviews);

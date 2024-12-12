@@ -51,7 +51,7 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
     public void getProductReviews_성공() {
         // given
         Long productId = 1L;
-        Integer cursor = 1;
+        Integer cursor = 3;
         Integer size = 2;
 
         Product product = ProductBuilder.build();
@@ -59,7 +59,7 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
 
         // stub
         when(productService.getProductById(productId)).thenReturn(product);
-        when(reviewRepository.findOrderByCreatedAtDesc(productId, PageRequest.of(0, size))).thenReturn(expectedResponse.reviews());
+        when(reviewRepository.findOrderByCreatedAtDesc(productId, cursor, PageRequest.of(0, size))).thenReturn(expectedResponse.reviews());
 
         // when
         GetProductReviewsResponse actualResponse = reviewService.getProductReviews(productId, cursor, size);
