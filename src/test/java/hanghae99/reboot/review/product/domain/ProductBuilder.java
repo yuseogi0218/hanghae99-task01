@@ -8,4 +8,11 @@ public class ProductBuilder {
 
         return product;
     }
+
+    public static Product build2() {
+        Product product = new Product(2L);
+        product.updateReviewInfo(10, 5.0f);
+
+        return product;
+    }
 }

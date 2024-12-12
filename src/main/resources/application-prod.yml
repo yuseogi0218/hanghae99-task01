@@ -11,8 +11,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        show_sql: false
-        format_sql: false
     hibernate:
       ddl-auto: none
       naming:
@@ -25,8 +23,8 @@ spring:
       data-locations: classpath:database/data.sql
   data:
     redis:
-      host: ${SPRING_DATA_REDIS_HOST:localhost}
-      port: ${SPRING_DATA_REDIS_PORT:6379}
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT}
   web:
     resources:
       static-path: /temp/

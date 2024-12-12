@@ -1,8 +1,11 @@
 package hanghae99.reboot.review.product.unit.domain;
 
 import hanghae99.reboot.review.product.domain.Product;
+import hanghae99.reboot.review.product.domain.ProductBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Objects;
 
 public class ProductUnitTest {
 
@@ -31,5 +34,38 @@ public class ProductUnitTest {
 
         // then
         Assertions.assertThat(product.getId()).isEqualTo(id);
+    }
+
+    @Test
+    public void equals_True() {
+        // given
+        Product product1 = ProductBuilder.build();
+        Product product2 = ProductBuilder.build();
+
+        // when & then
+        Assertions.assertThat(product1.equals(product2)).isTrue();
+    }
+
+    @Test
+    public void equals_False() {
+        // given
+        Product product1 = ProductBuilder.build();
+        Product product2 = ProductBuilder.build2();
+
+        // when & then
+        Assertions.assertThat(product1.equals(product2)).isFalse();
+    }
+
+    @Test
+    public void hashCode_() {
+        // given
+        Product product = ProductBuilder.build();
+        int expectedHashCode = Objects.hash(product.getId(), product.getReviewCount(), product.getScore());
+
+        // when
+        int actualHashCode = product.hashCode();
+
+        // then
+        Assertions.assertThat(actualHashCode).isEqualTo(expectedHashCode);
     }
 }
