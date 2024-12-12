@@ -32,6 +32,7 @@ public class DummyFileService implements FileService{
             file.transferTo(new File(fullPath));
             return "/" + fileName;
         } catch (IOException e) {
+            e.printStackTrace();
             throw new CustomCommonException(CommonErrorCode.UNABLE_TO_UPLOAD_FILE);
         }
     }

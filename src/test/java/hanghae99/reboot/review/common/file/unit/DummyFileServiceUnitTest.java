@@ -7,11 +7,42 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import java.io.File;
 
 public class DummyFileServiceUnitTest extends ServiceUnitTest {
 
     @InjectMocks
     DummyFileService fileService;
+
+    @Test
+    public void uploadFile() {
+        // given
+        String testDir = "src/test/resources/static/";
+        ReflectionTestUtils.setField(fileService, "fileDir", testDir);
+        MockMultipartFile emptyFile = new MockMultipartFile(
+                "file",
+                "image.png",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                new byte[]{65}
+        );
+
+        // when
+        String fileUrl = fileService.uploadFile(emptyFile);
+
+        // then
+        Assertions.assertThat(fileUrl).isNotNull();
+
+        // 파일 경로 확인
+        File file = new File(testDir + fileUrl);
+        Assertions.assertThat(file.exists()).isTrue();
+
+        // 테스트 후 파일 삭제
+        if (file.exists()) {
+            Assertions.assertThat(file.delete()).isTrue();
+        }
+    }
 
     @Test
     public void uploadFileWithOutFile() {

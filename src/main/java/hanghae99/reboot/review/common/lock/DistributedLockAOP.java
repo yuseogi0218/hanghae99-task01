@@ -40,7 +40,7 @@ public class DistributedLockAOP {
                 return false;
             }
 
-            return aopForTransaction.proceed(joinPoint);  // (3)
+            return aopForTransaction.proceed(joinPoint);
         } catch (InterruptedException e) {
             throw new InterruptedException();
         } finally {
