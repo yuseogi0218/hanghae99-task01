@@ -3,12 +3,14 @@ package hanghae99.reboot.review.common;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanghae99.reboot.review.ReviewApplication;
 import hanghae99.reboot.review.common.exception.ErrorCode;
+import hanghae99.reboot.review.common.file.FileService;
 import hanghae99.reboot.review.common.redis.config.RedisTestContainers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,9 @@ public class IntegrationTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockitoBean
+    protected FileService fileService;
 
     public void assertError(ErrorCode expected, ResultActions actual) throws Exception {
         actual

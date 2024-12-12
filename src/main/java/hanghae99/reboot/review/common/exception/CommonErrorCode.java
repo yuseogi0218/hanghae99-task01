@@ -16,7 +16,8 @@ public enum CommonErrorCode implements ErrorCode {
     INVALID_REQUEST_BODY_FIELDS("COMMON_400_04", HttpStatus.BAD_REQUEST, "%s"),
 
     // 500 INTERNAL SERVER ERROR 서버 에러
-    INTERNAL_SERVER_ERROR("COMMON_500_01", HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다.");
+    INTERNAL_SERVER_ERROR("COMMON_500_01", HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러 입니다."),
+    UNABLE_TO_UPLOAD_FILE("COMMON_500_02", HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드가 불가능합니다.");
 
     private final String code;
     private final HttpStatus httpStatus;

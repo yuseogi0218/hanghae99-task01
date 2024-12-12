@@ -6,6 +6,9 @@ build
 .idea
 out
 
+# yml
+application-dev.yml
+
 ### MAC ###
 .DS_Store
 db

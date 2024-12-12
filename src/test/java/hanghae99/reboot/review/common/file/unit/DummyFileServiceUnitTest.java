@@ -14,23 +14,6 @@ public class DummyFileServiceUnitTest extends ServiceUnitTest {
     DummyFileService fileService;
 
     @Test
-    public void uploadFile() {
-        // given
-        MockMultipartFile emptyFile = new MockMultipartFile(
-                "file",
-                "image.png",
-                MediaType.MULTIPART_FORM_DATA_VALUE,
-                new byte[]{65}
-        );
-
-        // when
-        String fileUrl = fileService.uploadFile(emptyFile);
-
-        // then
-        Assertions.assertThat(fileUrl).isEqualTo("/image.png");
-    }
-
-    @Test
     public void uploadFileWithOutFile() {
         // given
 

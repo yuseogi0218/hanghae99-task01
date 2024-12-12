@@ -86,6 +86,7 @@ public class ReviewIntegrationTest extends IntegrationTest {
         ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
+        verify(fileService, times(1)).uploadFile(file);
         resultActions.andExpect(status().isOk());
     }
 
