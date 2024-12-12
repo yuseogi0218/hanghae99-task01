@@ -33,6 +33,7 @@ public class ReviewAPI {
             @RequestPart("review") @Valid CreateProductReviewRequest request
     ) {
         reviewService.createProductReview(productId, file, request);
+        reviewService.updateProductReviewInfo(productId);
         return ResponseEntity.ok().build();
     }
 }

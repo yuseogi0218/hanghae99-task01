@@ -89,7 +89,6 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
         // stub
         when(productService.getProductById(productId)).thenReturn(product);
         when(reviewRepository.findTopByProductIdAndUserId(productId, request.userId())).thenReturn(Optional.empty());
-        when(reviewRepository.findReviewInfoByProductId(productId)).thenReturn(productReviewInfoDTO);
 
         // when
         reviewService.createProductReview(productId, file, request);

@@ -14,13 +14,20 @@ services:
       - "3307:3306"
     networks:
       - my-network
-
+  redisdb:
+    container_name: redisdb
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
   spring-server:
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - mysqldb
+      - redisdb
     ports:
       - "8080:8080"
     networks:
@@ -30,6 +37,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: admin_password
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SPRING_DATA_REDIS_HOST: redisdb
+      SPRING_DATA_REDIS_PORT: 6379
 
 networks:
   my-network:
