@@ -36,36 +36,4 @@ public class ProductUnitTest {
         Assertions.assertThat(product.getId()).isEqualTo(id);
     }
 
-    @Test
-    public void equals_True() {
-        // given
-        Product product1 = ProductBuilder.build();
-        Product product2 = ProductBuilder.build();
-
-        // when & then
-        Assertions.assertThat(product1.equals(product2)).isTrue();
-    }
-
-    @Test
-    public void equals_False() {
-        // given
-        Product product1 = ProductBuilder.build();
-        Product product2 = ProductBuilder.build2();
-
-        // when & then
-        Assertions.assertThat(product1.equals(product2)).isFalse();
-    }
-
-    @Test
-    public void hashCode_() {
-        // given
-        Product product = ProductBuilder.build();
-        int expectedHashCode = Objects.hash(product.getId(), product.getReviewCount(), product.getScore());
-
-        // when
-        int actualHashCode = product.hashCode();
-
-        // then
-        Assertions.assertThat(actualHashCode).isEqualTo(expectedHashCode);
-    }
 }

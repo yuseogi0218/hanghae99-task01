@@ -21,10 +21,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -72,19 +75,14 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
      * 상품 리뷰 등록 성공
      */
     @Test
-    public void createProductReview_성공() {
+    public void createProductReview_성공() throws Exception {
         // given
         Long productId = 1L;
-        MockMultipartFile file = new MockMultipartFile(
-                "file",
-                "image.png",
-                MediaType.MULTIPART_FORM_DATA_VALUE,
-                new byte[]{65}
-        );
+        MultipartFile file = Mockito.mock(MultipartFile.class);
+
         CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
 
         Product product = ProductBuilder.build();
-        GetProductReviewInfoDTO productReviewInfoDTO = GetProductReviewInfoDTOBuilder.build();
 
         // stub
         when(productService.getProductById(productId)).thenReturn(product);
@@ -96,8 +94,6 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
         // then
         verify(fileService, times(1)).uploadFile(file);
         verify(reviewRepository, times(1)).save(any());
-        Assertions.assertThat(product.getReviewCount()).isEqualTo(productReviewInfoDTO.totalCount());
-        Assertions.assertThat(product.getScore()).isEqualTo(productReviewInfoDTO.score());
     }
 
     /**
@@ -108,12 +104,7 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
     public void createProductReview_실패_ALREADY_REVIEWED_PRODUCT() {
         // given
         Long productId = 1L;
-        MockMultipartFile file = new MockMultipartFile(
-                "file",
-                "image.png",
-                MediaType.MULTIPART_FORM_DATA_VALUE,
-                new byte[]{65}
-        );
+        MultipartFile file = Mockito.mock(MultipartFile.class);
         CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
 
         Product product = ProductBuilder.build();
@@ -127,5 +118,28 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
         Assertions.assertThatThrownBy(() -> reviewService.createProductReview(productId, file, request))
                 .isInstanceOf(CustomCommonException.class)
                 .hasMessage(ProductErrorCode.ALREADY_REVIEWED_PRODUCT.getMessage());
+    }
+
+    /**
+     * 상품 리뷰 정보 변경 성공
+     */
+    @Test
+    public void updateProductReviewInfo_성공() {
+        // given
+        Long productId = 2L;
+
+        Product product = ProductBuilder.build2();
+        GetProductReviewInfoDTO productReviewInfo = GetProductReviewInfoDTOBuilder.build();
+
+        // stub
+        when(productService.getProductById(productId)).thenReturn(product);
+        when(reviewRepository.findReviewInfoByProductId(productId)).thenReturn(productReviewInfo);
+
+        // when
+        reviewService.updateProductReviewInfo(productId);
+
+        // then
+        Assertions.assertThat(product.getReviewCount()).isEqualTo(productReviewInfo.totalCount());
+        Assertions.assertThat(product.getScore()).isEqualTo(productReviewInfo.score());
     }
 }

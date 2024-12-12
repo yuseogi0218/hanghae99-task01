@@ -2,6 +2,7 @@ package hanghae99.reboot.review.product.unit.repository;
 
 import hanghae99.reboot.review.common.RepositoryUnitTest;
 import hanghae99.reboot.review.product.domain.Review;
+import hanghae99.reboot.review.product.domain.ReviewBuilder;
 import hanghae99.reboot.review.product.dto.GetProductReviewInfoDTO;
 import hanghae99.reboot.review.product.dto.GetProductReviewInfoDTOBuilder;
 import hanghae99.reboot.review.product.dto.response.GetReviewResponse;
@@ -24,7 +25,7 @@ public class ReviewRepositoryUnitTest extends RepositoryUnitTest {
     private ReviewRepository reviewRepository;
 
     @Test
-    public void findOrderByCreatedAtDesc() {
+    public void findOrderByCreatedAtDesc_존재_O() {
         // given
         Long productId = 1L;
         Integer cursor = 3;
@@ -42,17 +43,38 @@ public class ReviewRepositoryUnitTest extends RepositoryUnitTest {
     }
 
     @Test
+    public void findOrderByCreatedAtDesc_존재_X() {
+        // given
+        Long unknownProductId = 0L;
+        Integer cursor = 3;
+        Pageable pageable = PageRequest.of(0, 2);
+
+        // when
+        List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(unknownProductId, cursor, pageable);
+
+        // then
+        Assertions.assertThat(reviews.isEmpty()).isTrue();
+    }
+
+    @Test
     public void findTopByProductIdAndUserId_존재_O() {
         // given
         Long productId = 1L;
         Long userId = 1L;
+
+        Review expectedReview = ReviewBuilder.build();
 
         // when
         Optional<Review> optionalReview = reviewRepository.findTopByProductIdAndUserId(productId, userId);
 
         // then
         Assertions.assertThat(optionalReview.isPresent()).isTrue();
-
+        optionalReview.ifPresent(
+                actualReview -> {
+                    Assertions.assertThat(actualReview.getId()).isNotNull();
+                    ReviewBuilder.assertReview(actualReview, expectedReview);
+                }
+        );
     }
 
     @Test
