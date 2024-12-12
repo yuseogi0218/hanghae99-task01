@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,7 +52,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         // given
         String productId = "1";
         String cursor = "1";
-        String size = "10";
+        String size = "2";
 
         GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
 
@@ -81,7 +81,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         // given
         String invalidProductId = "invalid-product-id";
         String cursor = "1";
-        String size = "10";
+        String size = "2";
 
         // when
         ResultActions resultActions = requestGetProductReviews(invalidProductId, cursor, size);
@@ -99,7 +99,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         // given
         String productId = "1";
         String invalidCursor = "invalid-cursor";
-        String size = "10";
+        String size = "2";
 
         // when
         ResultActions resultActions = requestGetProductReviews(productId, invalidCursor, size);
@@ -145,6 +145,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         ResultActions resultActions = requestCreateProductionReview(productId, file, request);
 
         // then
+        verify(reviewService, times(1)).createProductReview(Long.valueOf(productId), file, request);
         resultActions.andExpect(status().isOk());
     }
 

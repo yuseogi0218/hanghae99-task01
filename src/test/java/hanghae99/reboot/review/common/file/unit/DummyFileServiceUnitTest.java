@@ -2,7 +2,6 @@ package hanghae99.reboot.review.common.file.unit;
 
 import hanghae99.reboot.review.common.ServiceUnitTest;
 import hanghae99.reboot.review.common.file.DummyFileService;
-import hanghae99.reboot.review.common.file.FileService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
