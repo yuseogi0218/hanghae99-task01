@@ -26,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,7 +58,7 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.build();
 
         // stub
-        when(reviewService.getProductReviews(any(), any(), any())).thenReturn(expectedResponse);
+        when(reviewService.getProductReviews(Long.valueOf(productId), Integer.valueOf(cursor), Integer.valueOf(size))).thenReturn(expectedResponse);
 
         // when
         ResultActions resultActions = requestGetProductReviews(productId, cursor, size);
@@ -70,6 +71,24 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         GetProductReviewsResponse actualResponse = objectMapper.readValue(responseString, GetProductReviewsResponse.class);
 
         Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+    }
+
+    /**
+     * 상품 리뷰 목록 조회 실패
+     * - 실패 사유 : HTTP Method
+     */
+    @Test
+    public void 상품_리뷰_목록_조회_실패_HTTP_Method() throws Exception {
+        // given
+        String productId = "1";
+        String cursor = "3";
+        String size = "2";
+
+        // when
+        ResultActions resultActions = requestGetProductReviewWithPUTMethod(productId, cursor, size);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.METHOD_NOT_ALLOWED, resultActions, "productId");
     }
 
     /**
@@ -127,6 +146,27 @@ public class ReviewAPIUnitTest extends APIUnitTest {
     }
 
     /**
+     * 상품 리뷰 목록 조회 실패
+     * - 실패 사유 : 알 수 없는 예외
+     */
+    @Test
+    public void 상푸_리뷰_목록_조회_실패_알수없는예외() throws Exception {
+        // given
+        String productId = "1";
+        String cursor = "3";
+        String size = "2";
+
+        // stub
+        when(reviewService.getProductReviews(Long.valueOf(productId), Integer.valueOf(cursor), Integer.valueOf(size))).thenThrow(new RuntimeException("알 수 없는 예외"));
+
+        // when
+        ResultActions resultActions = requestGetProductReviews(productId, cursor, size);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.UNKNOWN_ERROR, resultActions, "알 수 없는 예외");
+    }
+
+    /**
      * 상품 리뷰 등록 성공
      */
     @Test
@@ -147,6 +187,29 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         // then
         verify(reviewService, times(1)).createProductReview(Long.valueOf(productId), file, request);
         resultActions.andExpect(status().isOk());
+    }
+
+    /**
+     * 상품 리뷰 등록 실패
+     * - 실패 사유 : HTTP Method
+     */
+    @Test
+    public void 상품_리뷰_등록_실패_HTTP_Method() throws Exception {
+        // given
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "image.png",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                new byte[]{65}
+        );
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
+
+        // when
+        ResultActions resultActions = requestCreateProductionReviewWithPUTMethod(productId, file, request);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.METHOD_NOT_ALLOWED, resultActions, "productId");
     }
 
     /**
@@ -263,8 +326,41 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "리뷰 점수는 1 ~ 5 사이의 정수 이어야 합니다.");
     }
 
+    /**
+     * 상품 리뷰 등록 실패
+     * - 실패 사유 : 알 수 없는 예외
+     */
+    @Test
+    public void 상품_리뷰_등록_실패_알수없는예외() throws Exception {
+        // given
+        String productId = "1";
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "image.png",
+                MediaType.MULTIPART_FORM_DATA_VALUE,
+                new byte[]{65}
+        );
+        CreateProductReviewRequest request = CreateProductReviewRequestBuilder.build();
+
+        // stub
+        doThrow(new RuntimeException("알 수 없는 예외")).when(reviewService).createProductReview(Long.valueOf(productId), file, request);
+
+        // when
+        ResultActions resultActions = requestCreateProductionReview(productId, file, request);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.UNKNOWN_ERROR, resultActions, "알 수 없는 예외");
+    }
+
     private ResultActions requestGetProductReviews(String productId, String cursor, String size) throws Exception {
         return mvc.perform(get("/products/{productId}/reviews", productId)
+                        .param("cursor", cursor)
+                        .param("size", size))
+                .andDo(print());
+    }
+
+    private ResultActions requestGetProductReviewWithPUTMethod(String productId, String cursor, String size) throws Exception {
+        return mvc.perform(put("/products/{productId}/reviews", productId)
                         .param("cursor", cursor)
                         .param("size", size))
                 .andDo(print());
@@ -279,6 +375,23 @@ public class ReviewAPIUnitTest extends APIUnitTest {
         return mvc.perform(builder
                         .file(file)
                         .file(review)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
+
+    private ResultActions requestCreateProductionReviewWithPUTMethod(String productId, MockMultipartFile file, CreateProductReviewRequest request) throws Exception{
+        MockMultipartHttpServletRequestBuilder builder = MockMvcRequestBuilders.multipart("/products/{productId}/reviews", productId);
+
+        String requestJson = objectMapper.writeValueAsString(request);
+        MockMultipartFile review = new MockMultipartFile("review", "review", MediaType.APPLICATION_JSON_VALUE, requestJson.getBytes(StandardCharsets.UTF_8));
+
+        return mvc.perform(builder
+                        .file(file)
+                        .file(review)
+                        .with(requestConfig -> {
+                            requestConfig.setMethod("PUT"); // HTTP 메서드를 PUT으로 변경
+                            return requestConfig;
+                        })
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
