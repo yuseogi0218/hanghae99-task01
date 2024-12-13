@@ -258,6 +258,7 @@ SELECT *
 FROM Review r
 WHERE ({cursor} IS NULL OR r.id < {cursor}) AND r.productId = {productId}
 ORDER BY r.createdAt DESC
+LIMIT {size}
 ```
 
 ## 상품 리뷰 등록
@@ -520,12 +521,12 @@ public class ReviewAPI {
     
     ![sevice-db-uniquekey.png](README-image/sevice-db-uniquekey.png)
 
-- 두 방법 모두 k6 테스트 결과, 
+- 두 방법 모두 k6 성능 테스트 결과, 
   
   비즈니스 요구사항인 `사용자는 하나의 상품에 대해 하나의 리뷰만 작성 가능합니다.`를 지키고 있음을 확인함
 
 
-- 하지만, 유니크 제약 조건 방법의 경우 중복 데이터가 존재 하여도 파일을 업로드 해야하는 로직으로 이루어 져 있기 때문에 네임드 Lock 방식을 채택하였음
+- 하지만, 유니크 제약 조건 방법의 경우 중복 데이터가 존재 하여도 파일을 업로드 해야하는 로직으로 이루어져 있기 때문에 네임드 Lock 방식을 채택하였음
 
 ### 상품의 리뷰 정보 수정 기능
 
@@ -544,3 +545,11 @@ public class ReviewAPI {
 - 통합 및 (컨트롤렁, 서비스, 레포지토리, 도메인) 단위 테스트 코드를 총 42개 작성하였음
 - 분산 Lock 의 예외 처리 기능을 제외한 모든 코드에 대해서 라인 커버리지 100% 달성
 ![test-coverage.png](README-image/test-coverage.png)
+
+## 예외 응답 처리 로직
+- `@RestControllerAdvice` 와 `@ExceptionHandler` 를 이요하여 각 예외에 대한 응답 처리를 구현함
+  - 공통 예외 응답 예시
+    
+  ![exception-response.png](README-image/exception-response.png)
+- 예외 코드 문서
+  ![error-code.png](README-image/error-code.png)
