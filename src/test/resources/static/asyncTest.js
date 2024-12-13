@@ -16,7 +16,7 @@ export default function () {
 
     const fd = new FormData();
     const reviewJSON = JSON.stringify({
-        userId : randomIntBetween(16, 8000),
+        userId : randomIntBetween(16, 515),
         score : randomIntBetween(1, 5),
         content : '리뷰 내용',
     })

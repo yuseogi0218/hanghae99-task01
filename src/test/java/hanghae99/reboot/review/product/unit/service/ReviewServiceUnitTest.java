@@ -72,6 +72,30 @@ public class ReviewServiceUnitTest extends ServiceUnitTest {
     }
 
     /**
+     * 상품 리뷰 목록 조회 성공 - emptyList
+     */
+    @Test
+    public void getProductReviews_성공_emptyList() {
+        // given
+        Long productId = 1L;
+        Integer cursor = 3;
+        Integer size = 2;
+
+        Product product = ProductBuilder.build();
+        GetProductReviewsResponse expectedResponse = GetProductReviewsResponseBuilder.buildForEmptyList();
+
+        // stub
+        when(productService.getProductById(productId)).thenReturn(product);
+        when(reviewRepository.findOrderByCreatedAtDesc(productId, cursor, PageRequest.of(0, size))).thenReturn(expectedResponse.reviews());
+
+        // when
+        GetProductReviewsResponse actualResponse = reviewService.getProductReviews(productId, cursor, size);
+
+        // then
+        Assertions.assertThat(actualResponse).isEqualTo(expectedResponse);
+    }
+
+    /**
      * 상품 리뷰 등록 성공
      */
     @Test
