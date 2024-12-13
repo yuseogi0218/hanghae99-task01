@@ -532,18 +532,19 @@ public class ReviewAPI {
 
 - 네임드 Lock 방식의 분산 Lock 방법 구현
     - 상품의 리뷰 작성 기능을 통해, AOP 기능을 활용한 분산 Lock 을 구현하였기 때문에 쉬운 구현이 가능하였음
-        - 리뷰 리뷰 정보 수정 로직에 들어가기 위해서는 productId 로 이루어진 key 를 획득해야 함
+        - 리뷰 정보 수정 로직에 들어가기 위해서는 productId 로 이루어진 key 를 획득해야 함
       ```java
       @DistributedLock(key = "#productId")
       public void updateProductReviewInfo(Long productId) {
           ... // 리뷰 정보 수정 로직
       }
       ```
+   - k6 성능 테스트 도구를 이용하여, 최대 500명의 사용자가 1분동안 지속적으로 보내는 요청에 대해서 정상적으로 처리되는것을 확인할 수 있었음
 
 ## 테스트 코드 작성
 - 기능의 정확한 동작을 검증하기 위한 테스트 코드 작성 
 - 통합 및 (컨트롤렁, 서비스, 레포지토리, 도메인) 단위 테스트 코드를 총 42개 작성하였음
-- 분산 Lock 의 예외 처리 기능을 제외한 모든 코드에 대해서 라인 커버리지 100% 달성
+- 테스트 구성이 까다로운 분산 Lock 의 예외 처리 기능을 제외한 모든 코드에 대해서 라인 커버리지 100% 달성
 ![test-coverage.png](README-image/test-coverage.png)
 
 ## 예외 응답 처리 로직
