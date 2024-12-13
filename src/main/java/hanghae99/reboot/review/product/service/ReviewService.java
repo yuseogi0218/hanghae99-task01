@@ -37,7 +37,7 @@ public class ReviewService {
 
         List<GetReviewResponse> reviews = reviewRepository.findOrderByCreatedAtDesc(productId, cursor, PageRequest.of(0, size));
 
-        return GetProductReviewsResponse.from(product, cursor, reviews);
+        return GetProductReviewsResponse.from(product, reviews);
     }
 
     @DistributedLock(key = "#productId + '-' + #request.userId()")

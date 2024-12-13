@@ -38,12 +38,6 @@ public class GlobalExceptionHandler {
         return exception.toErrorResponse();
     }
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<?> handleMissingRequestParameterException(MissingServletRequestParameterException e) {
-        CustomCommonException exception = new CustomCommonException(CommonErrorCode.REQUIRED_PARAMETER, e.getParameterName());
-        return exception.toErrorResponse();
-    }
-
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<?> handleMissingServletRequestPartException(MissingServletRequestPartException e) {
         CustomCommonException exception = new CustomCommonException(CommonErrorCode.REQUIRED_PARAMETER, e.getRequestPartName());

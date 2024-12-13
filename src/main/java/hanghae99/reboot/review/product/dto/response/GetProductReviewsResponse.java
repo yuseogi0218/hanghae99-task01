@@ -10,7 +10,13 @@ public record GetProductReviewsResponse(
         Integer cursor,
         List<GetReviewResponse> reviews
 ) {
-    public static GetProductReviewsResponse from(Product product, Integer cursor, List<GetReviewResponse> reviews) {
-        return new GetProductReviewsResponse(product.getReviewCount(), product.getScore(), cursor - reviews.size(), reviews);
+    public static GetProductReviewsResponse from(Product product, List<GetReviewResponse> reviews) {
+        Integer nextCursor;
+        if (reviews.isEmpty()) {
+            nextCursor = null;
+        } else {
+            nextCursor = reviews.get(reviews.size() - 1).id().intValue();
+        }
+        return new GetProductReviewsResponse(product.getReviewCount(), product.getScore(), nextCursor, reviews);
     }
 }

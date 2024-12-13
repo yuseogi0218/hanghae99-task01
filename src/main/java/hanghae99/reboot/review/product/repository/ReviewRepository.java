@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
     @Query("SELECT new hanghae99.reboot.review.product.dto.response.GetReviewResponse(r.id, r.userId, r.score, r.content, r.imageUrl, r.createdAt)" +
-            "FROM Review r WHERE r.id < :cursor AND r.product.id = :productId ORDER BY r.createdAt DESC")
+            "FROM Review r WHERE (:cursor IS NULL OR r.id < :cursor) AND r.product.id = :productId ORDER BY r.createdAt DESC")
     List<GetReviewResponse> findOrderByCreatedAtDesc(Long productId, Integer cursor, Pageable pageable);
 
     Optional<Review> findTopByProductIdAndUserId(Long productId, Long userId);
