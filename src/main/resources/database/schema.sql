@@ -17,3 +17,5 @@ CREATE TABLE `Review` (
                           `createdAt`   DATETIME(3) NOT NULL,
                           FOREIGN KEY (`productId`) REFERENCES Product(`id`)
 ) ENGINE = InnoDB CHARSET = utf8;
+
+CREATE INDEX idx_product_user ON Review (productId, userId);

@@ -17,3 +17,5 @@ CREATE TABLE `Review` (
                           `createdAt`   TIMESTAMP NOT NULL,
                           FOREIGN KEY (`productId`) REFERENCES `Product`(`id`)
 );
+
+CREATE INDEX idx_product_user ON Review (productId, userId);
